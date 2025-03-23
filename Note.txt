@@ -1,0 +1,83 @@
+What is an API?
+An API, or Application Programming Interface, is a programming interface that allows different programs to communicate with each other. Essentially, an API acts as an interface between software programs to share data and specific functions without having to know the internal details of each software program.
+
+What is REST API?
+REST API is an architectural style for designing web APIs that standardizes the communication between the client (API consumer) and the server (API provider).
+
+REST API Principles
+Uniform Interface
+Each resource in the system should have only one URI (unique address) and these resources should be accessible through the same interface.
+
+Client-Server
+The client and server should be independent of each other. That is, they can change without depending on each other's code.
+
+Stateless
+Each request from the client to the server is independent, and the server does not keep any information about the state of the client.
+
+Cacheable
+Data can be cached on the client or server for better performance.
+
+Layered System
+The API can consist of multiple layers, so that the client does not know whether it is connected directly to the main server or through an intermediary layer.
+
+Code on Demand (optional)
+In special cases, the server can send executable code (such as JavaScript) to the client.
+
+🔹 Comparison of different dependency injection methods in Spring:
+1️⃣ Constructor Injection
+Dependencies are initialized when the object is created.
+Suitable for Required Dependencies.
+Best method for Immutable Objects (objects that do not change after creation).
+In terms of test writing and readability, it is preferable to other methods.
+
+2️⃣ Field Injection
+Applied directly to the field through annotation.
+Reduces Boilerplate Code (does not require a setter or constructor method).
+The problem with this method is that it makes testing harder, because it is not possible to initialize Mocks from the outside.
+
+3️⃣ Setter Injection
+Dependencies are initialized after the object is created.
+Suitable for Optional Dependencies.
+It allows changing the value of a dependency after initialization.
+It is less readable than Constructor Injection and the object may remain in an invalid state.
+
+❌ What is the problem with Invalid State?
+If an object receives its necessary dependencies later than the time of its construction, it may be invalid and unusable until these dependencies are initialized.
+Example: Problem with Setter Injection
+Suppose we have a Shop class that requires a Manager to work. If the Manager is not initialized, the Shop methods cannot work properly.
+🔴 Here, if the openShop() method is executed before the manager is initialized, the program will throw a NullPointerException error because the manager is not initialized.
+
+@Component
+public class Shop {
+    private Manager manager;
+
+    @Autowired
+    public void setManager(Manager manager) { 
+        this.manager = manager;
+    }
+
+    public void openShop() {
+        manager.manage(); 
+    }
+}
+
+✅ Solution: Use Constructor Injection
+If dependencies are initialized through the constructor, the object will be in the correct state and ready to use from the very beginning.
+✅ In this method, since the manager value is initialized at the moment of Shop creation, it will never have a null value and the object will always remain in a valid state. 🚀
+
+@Component
+public class Shop {
+    private final Manager manager;
+
+    @Autowired
+    public Shop(Manager manager) { 
+        this.manager = manager;
+    }
+
+    public void openShop() {
+        manager.manage(); 
+    }
+}
+
+Running JARs Standalone:
+        - java -jar your-app.jar
