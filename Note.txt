@@ -81,3 +81,33 @@ public class Shop {
 
 Running JARs Standalone:
         - java -jar your-app.jar
+
+Spring Boot uses Logback for log management by default.
+To fine-tune the logs, we can place the logback-spring.xml file in the src/main/resources directory.
+
+🔹 Key elements in Logback
+
+1. Appender
+Tells where logs should be stored.
+ConsoleAppender: Display in console
+FileAppender: Store in a file
+RollingFileAppender: Store in files that can rotate automatically based on date or size (e.g. one new file daily)
+
+2. Logger
+Specifies what to log and at what level.
+Can specify that only errors and warnings (error and warn) should be logged.
+Can also specify which Appender to send the log to (or even to multiple Appenders at the same time)
+
+🔹 Log Levels
+From least important to most important:
+TRACE
+DEBUG
+INFO
+WARN
+ERROR
+📌 If the WARN level is enabled, only WARN and ERROR logs are recorded. The rest are ignored.
+
+Two ways to prevent Git from tracking logs
+1. Store logs outside of the project
+This will store logs outside of the Git project path and Git will never see them.
+2. Use .gitignore to ignore the logs folder

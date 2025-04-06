@@ -1,2 +1,16 @@
 spring:
   application.name: practical-java
+
+#%d{HH:mm:ss.SSS} → Log time (hour:minute:second.millisecond)
+#%5p → Log level (INFO, DEBUG, ERROR...)
+#%logger{39} → Logger class name (up to 39 characters)
+#%m → Log message
+#%wEx → If an exception occurred, print it
+#clr(...) → To color the text in the console
+
+logging:
+  pattern:
+    console: "[Practical Java] %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+    file:  "[Practical Java] %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+  file:
+    name: log/practical-java.log

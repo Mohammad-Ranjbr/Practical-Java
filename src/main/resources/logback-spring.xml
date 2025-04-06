@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include
+            resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include
+            resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include
+            resource="org/springframework/boot/logging/logback/file-appender.xml" />
+
+<!--    All logs created inside com.example code (e.g. with log.debug() or log.info()),-->
+<!--    at debug level or higher (debug, info, warn, error)-->
+<!--    are only sent to the console and file.-->
+<!--    Since additivity="false", these logs are not sent to parent loggers (e.g. root logger). They are only sent to these two appenders.
+         By default, when a log is written in Logback for a specific package (such as com.course), that log is sent to its parent appenders (such as the root logger) in addition to being sent to its own appenders.-->
+
+    <logger name="com.example" level="debug"
+            additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
+
+<!--    If no specific logging is defined for a package, by default only warn, error, and higher logs are recorded.-->
+<!--    These logs go to both the console and a file.-->
+
+    <root level="warn">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>
