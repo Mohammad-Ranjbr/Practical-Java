@@ -1,4 +1,4 @@
-package com.example.practical_java;
+package com.example.practical;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

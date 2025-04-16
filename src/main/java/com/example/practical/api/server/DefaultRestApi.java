@@ -1,4 +1,4 @@
-package com.example.practical_java.api.server;
+package com.example.practical.api.server;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;

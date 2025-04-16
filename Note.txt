@@ -108,6 +108,16 @@ ERROR
 📌 If the WARN level is enabled, only WARN and ERROR logs are recorded. The rest are ignored.
 
 Two ways to prevent Git from tracking logs
-1. Store logs outside of the project
-This will store logs outside of the Git project path and Git will never see them.
+1. Store logs outside the project
+This will store logs outside the Git project path and Git will never see them.
 2. Use .gitignore to ignore the logs folder
+
+🔁 JSON ↔ Java (Serialization/Deserialization)
+POJO (Plain Old Java Object):
+A simple Java class that only contains properties, getters, and setters. It may override toString(), equals(), hashCode().
+Serialize (or Marshal):
+Convert Java to JSON
+→ Jackson uses getters to put the value of each property into JSON.
+Deserialize (or Unmarshal):
+Convert JSON to Java
+→ Jackson must have setters and a no-arg constructor to do this.
