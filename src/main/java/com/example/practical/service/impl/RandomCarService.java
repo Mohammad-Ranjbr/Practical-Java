@@ -6,6 +6,8 @@ import com.example.practical.util.RandomDateGenerator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -18,8 +20,16 @@ public class RandomCarService implements CarService {
         String type = TYPES.get(ThreadLocalRandom.current().nextInt(0, TYPES.size()));
         int price = PRICES.get(ThreadLocalRandom.current().nextInt(0, PRICES.size()));
         boolean available = ThreadLocalRandom.current().nextBoolean();
+
+        int randomCount = ThreadLocalRandom.current().nextInt(ADDITIONAL_FEATURE.size());
+        List<String> additionalFeature = new ArrayList<>();
+        for(int i=0; i<randomCount; i++){
+            additionalFeature.add(ADDITIONAL_FEATURE.get(i));
+        }
+
         LocalDate releaseDate = RandomDateGenerator.generateDate();
-        return new Car(brand, color, type, price, available, releaseDate);
+
+        return new Car(brand, color, type, price, available, releaseDate, additionalFeature);
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.practical.entity;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,5 +18,6 @@ public class Car {
     private int price;
     private boolean available;
     private LocalDate releaseDate;
+    private List<String> additionalFeature;
 
 }
