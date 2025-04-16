@@ -121,3 +121,18 @@ Convert Java to JSON
 Deserialize (or Unmarshal):
 Convert JSON to Java
 → Jackson must have setters and a no-arg constructor to do this.
+
+✅ Why do we need a parameterless constructor?
+In Java, when we convert JSON to Java objects (for example, with Spring Boot), tools like Jackson are usually used.
+In order for Jackson to be able to create a Java class from JSON, it needs:
+1. There is a parameterless constructor (no-args constructor).
+If we do not define any constructor ourselves, Java will create one by default.
+But if we define a constructor with parameters, that default will not be created!
+So we have to write it manually.
+If there is an additional field in JSON (like price) but it is not in the Car class:
+No problem.
+Jackson ignores that field.
+Because the Java class does not know what to do with it.
+If a field that is in the class (like brand) but is not in JSON:
+That field will have a null or default value (for example, 0 for int).
+

@@ -26,6 +26,7 @@ public class CarApi {
         return carService.generateCar();
     }
 
+    // This API only accepts requests with a Content-Type of application/json.
     @PostMapping(value = "/echo", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String echo(@RequestBody Car car) {
         logger.info("Car is {}", car.toString());
