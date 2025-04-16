@@ -19,5 +19,7 @@ public class Car {
     private boolean available;
     private LocalDate releaseDate;
     private List<String> additionalFeature;
+    private Engine engine;
+    private List<Tire> tires;
 
 }
