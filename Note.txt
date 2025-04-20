@@ -136,3 +136,33 @@ Because the Java class does not know what to do with it.
 If a field that is in the class (like brand) but is not in JSON:
 That field will have a null or default value (for example, 0 for int).
 
+Elasticsearch is a very fast and powerful search engine that stores data in JSON and can search it very quickly.
+Spring Data Elasticsearch provides a simpler layer for Java to communicate with Elasticsearch.
+Instead of writing our own REST API, we can store, read, and delete data with just a few simple interfaces and annotations.
+
+Cluster
+A collection of one or more Nodes that work together. Each Cluster has a name and all Nodes in it are connected to each other.
+
+Node
+Each Node is actually a physical or virtual machine that Elasticsearch is running on.
+For example, if you only have Elasticsearch installed on your laptop, you are working with a single node.
+
+3. Index
+The equivalent of Database in traditional databases.
+For example, you can have indexes called cars, users, products.
+Each index contains multiple Documents.
+
+4. Document
+Each Document is a data record (like a row in a database table). It is stored as JSON.
+
+Field
+Each Document contains different fields; for example, brand, color, price, releaseDate.
+
+Mapping
+Specifies what data type each field is, you can define this mapping yourself or let Elasticsearch automatically guess (which is sometimes not accurate).
+
+Important features of Elasticsearch
+Real-time indexing & search: You can store and search data almost instantly.
+Full-text search: Can do text searches like Google (even fuzzy and approximate).
+Scalable & distributed: Can split data across multiple nodes.
+RESTful API: Everything is done over HTTP.
