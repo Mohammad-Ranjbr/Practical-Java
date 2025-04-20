@@ -32,7 +32,9 @@ public class RandomCarService implements CarService {
 
         String fuel = FUELS.get(ThreadLocalRandom.current().nextInt(0, FUELS.size()));
         int horsePower = ThreadLocalRandom.current().nextInt(100,250);
-        Engine engine = new Engine(horsePower, fuel);
+        Engine engine = new Engine(horsePower, fuel, "Black", "0011002200");
+
+        String secretFeature = ThreadLocalRandom.current().nextBoolean() ? "Can Fly" : null;
 
         List<Tire> tires = new ArrayList<>();
         for(int i=0; i<4; i++){
@@ -43,7 +45,7 @@ public class RandomCarService implements CarService {
             tires.add(tire);
         }
 
-        return new Car(brand, color, type, price, available, releaseDate, additionalFeature, engine, tires);
+        return new Car(brand, color, type, price, available, releaseDate, additionalFeature, secretFeature,engine, tires);
     }
 
 }

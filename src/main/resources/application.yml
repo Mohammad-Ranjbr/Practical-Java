@@ -1,5 +1,7 @@
 spring:
   application.name: practical-java
+  jackson:
+    property-naming-strategy: SNAKE_CASE
 
 #%d{HH:mm:ss.SSS} → Log time (hour:minute:second.millisecond)
 #%5p → Log level (INFO, DEBUG, ERROR...)
