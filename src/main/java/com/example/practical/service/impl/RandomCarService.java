@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RandomCarService implements CarService {
 
     @Override
-    public Car generateCar() {
+    public Car generateCar(String id) {
         String brand = BRANDS.get(ThreadLocalRandom.current().nextInt(0, BRANDS.size()));
         String color = COLORS.get(ThreadLocalRandom.current().nextInt(0, COLORS.size()));
         String type = TYPES.get(ThreadLocalRandom.current().nextInt(0, TYPES.size()));
@@ -45,7 +45,7 @@ public class RandomCarService implements CarService {
             tires.add(tire);
         }
 
-        return new Car(brand, color, type, price, available, releaseDate, additionalFeature, secretFeature,engine, tires);
+        return new Car(id, brand, color, type, price, available, releaseDate, additionalFeature, secretFeature,engine, tires);
     }
 
 }

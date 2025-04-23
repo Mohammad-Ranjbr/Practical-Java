@@ -148,7 +148,7 @@ Each Node is actually a physical or virtual machine that Elasticsearch is runnin
 For example, if you only have Elasticsearch installed on your laptop, you are working with a single node.
 
 3. Index
-The equivalent of Database in traditional databases.
+The equivalent of Database table in traditional databases.
 For example, you can have indexes called cars, users, products.
 Each index contains multiple Documents.
 
@@ -166,3 +166,48 @@ Real-time indexing & search: You can store and search data almost instantly.
 Full-text search: Can do text searches like Google (even fuzzy and approximate).
 Scalable & distributed: Can split data across multiple nodes.
 RESTful API: Everything is done over HTTP.
+
+🔸 Value Type:
+When you declare a variable of the Value Type type, the value itself is stored in memory.
+When you assign it to another variable, a copy of the value is returned, not the original value itself.
+🔸 Reference Type:
+In this case, the variable points to the address of an object in memory.
+When you assign it to another variable, both point to the same address (object). This means that changing one will affect the other.
+
+Value Types include:
+int, float, double, boolean, char, byte, short, long
+These are the primitive types.
+Reference Types include:
+All classes, arrays, interfaces, etc. For example, String, List, ArrayList, User, etc.
+
+Converting Value Type to Reference Type (Boxing)
+Even String in Java is a Reference Type, but because it is immutable (i.e. cannot be changed), it sometimes behaves like a Value Type.
+
+Memory in Java: Stack vs Heap
+
+🔹 Stack:
+For temporary variables (such as local variables or method parameters).
+Faster because its structure is like a stack (LIFO).
+Primitive types such as int, double, char, etc. are stored here.
+Its memory management is automatic and lightweight (they are cleared when the method exits).
+🔹 Heap:
+For objects such as classes and arrays.
+Its management is done with the Garbage Collector.
+Slower because addressing and memory management must be done.
+Reference Types are stored here.
+
+Now the concept of Boxing:
+When you convert a primitive like int to Integer, in fact:
+✅ An object of type Integer is created on the Heap
+❗ That is, instead of a simple value on the stack, now you have a complete object on the heap!
+Why is the performance lower?
+Accessing the Heap is slower because it has to look for its address.
+The Garbage Collector has to manage them.
+Every time you do boxing, a new object may be created.
+In heavy numerical operations (like many loops), this creates a lot of objects in the Heap → high memory → GC pressure → reduced performance.
+
+But what about Primitives?
+These are stored directly on the Stack.
+No need for GC, Heap searches, or new object creation.
+High speed, better performance, and less memory consumption.
+

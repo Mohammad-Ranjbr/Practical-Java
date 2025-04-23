@@ -10,7 +10,7 @@ volumes:
 
 services:
   elasticsearch:
-    image: elasticsearch:7.8.0
+    image: elasticsearch:8.6.0
     container_name: elasticsearch
     restart: unless-stopped
     networks:
@@ -24,7 +24,7 @@ services:
       - elasticsearch-data:/usr/share/elasticsearch/data
 
   kibana:
-    image: kibana:7.8.0
+    image: kibana:8.60
     container_name: kibana
     restart: unless-stopped
     networks:

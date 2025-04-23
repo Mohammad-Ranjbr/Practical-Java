@@ -27,7 +27,7 @@ public class CarApi {
     // When this API is called (in the /random path), its output is JSON. And in the HTTP response header, the Content-Type value will be application/json.
     @GetMapping(value = "/random", produces = MediaType.APPLICATION_JSON_VALUE)
     public Car getRandomCar() {
-        return carService.generateCar();
+        return carService.generateCar("");
     }
 
     // This API only accepts requests with a Content-Type of application/json.
@@ -41,7 +41,7 @@ public class CarApi {
     public List<Car> randomCars(){
         List<Car> cars = new ArrayList<>();
         for (int i=0; i < ThreadLocalRandom.current().nextInt(1, 10); i++) {
-            cars.add(carService.generateCar());
+            cars.add(carService.generateCar(""));
         }
         return cars;
     }
