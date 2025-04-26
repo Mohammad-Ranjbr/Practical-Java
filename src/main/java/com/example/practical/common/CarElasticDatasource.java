@@ -32,13 +32,13 @@ public class CarElasticDatasource {
     }
 
     // This annotation causes the method it is applied to be executed when the Spring Boot application is fully loaded (and ready to run).
-    // This means that the populateDate() method is executed only once after the application is loaded.
+    // This means that the populateData() method is executed only once after the application is loaded.
     // .retrieve()
     // This method says "get the response result". After the DELETE request has been executed, we now want to read the response.
     // .block()
     // This method makes the program wait for the response to come and then return the response value.
     // In fact, with .block(), the program runs synchronously and waits for the result to come back.
-    @EventListener(ApplicationReadyEvent.class)
+    //@EventListener(ApplicationReadyEvent.class)
     public void populateData(){
         var response = webClient.delete().uri("/practical-java").retrieve().bodyToMono(String.class).block();
         logger.info("End delete with response {}", response);

@@ -211,3 +211,29 @@ These are stored directly on the Stack.
 No need for GC, Heap searches, or new object creation.
 High speed, better performance, and less memory consumption.
 
+This project uses Spring Data Elasticsearch.
+When Spring Data is storing data in Elasticsearch, it needs to know exactly which Java class this JSON represents in order to properly deserialize it later.
+
+🔵 For this reason, Spring Data stores a special field called _class in each document that holds the full name of the class.
+
+If you save the data via a Spring Boot Application (e.g. with CarRepository.save(car)), Spring will add this _class field itself.
+But when you make a request directly from Postman or a manual API, you have to manually provide this field in the JSON.
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "brand": "toyota" } },
+        { "match": { "color": "red" } }
+      ]
+    }
+  },
+  "size": 3,
+  "from": 0
+}
+
+query.bool.must : Both conditions must be met (both brand Toyota and color red)
+match: full-text search (not exactly the same, but parsed)
+size: 3 Return a maximum of 3 results
+from: 0 Start from result number 0 (for pagination)
+

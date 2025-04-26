@@ -1,13 +1,16 @@
 package com.example.practical.api.server;
 
 import com.example.practical.entity.Car;
+import com.example.practical.repository.CarElasticRepository;
 import com.example.practical.service.CarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,11 +20,13 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CarApi {
 
     private final CarService carService;
+    private final CarElasticRepository carElasticRepository;
     private static final Logger logger = LoggerFactory.getLogger(CarApi.class);
 
     @Autowired
-    public CarApi(CarService carService) {
+    public CarApi(CarService carService, CarElasticRepository carElasticRepository) {
         this.carService = carService;
+        this.carElasticRepository = carElasticRepository;
     }
 
     // When this API is called (in the /random path), its output is JSON. And in the HTTP response header, the Content-Type value will be application/json.
@@ -44,6 +49,50 @@ public class CarApi {
             cars.add(carService.generateCar(""));
         }
         return cars;
+    }
+
+    @GetMapping("/count")
+    public String count(){
+        return String.format("There are %s cars", carElasticRepository.count());
+    }
+
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String add(@RequestBody Car car) {
+        String id = carElasticRepository.save(car).getId();
+        return String.format("Added car : %s", id);
+    }
+
+    @GetMapping("/{id}")
+    public Car get(@PathVariable String id) {
+        return carElasticRepository.findById(id).orElse(null);
+    }
+
+    @PutMapping(value = "/{id}")
+    public String updateCar(@PathVariable String id, @RequestBody Car car) {
+        System.out.println(id);
+        car.setId(id);
+        Car updatedCar = carElasticRepository.save(car);
+        return String.format("Updated car : %s", updatedCar.getId());
+    }
+
+    @GetMapping(value = "/find-json", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Car> findCarsByBrandAndColor(@RequestBody Car car) {
+        return carElasticRepository.findByBrandAndColor(car.getBrand(), car.getColor());
+    }
+
+    @GetMapping("/cars/{brand}/{color}")
+    public List<Car> getCarsByPath(@PathVariable("brand") String brand,@PathVariable("color") String color) {
+        return carElasticRepository.findByBrandAndColor(brand, color);
+    }
+
+    @GetMapping("/cars")
+    public List<Car> findCarsByParam(@RequestParam("brand") String brand,@RequestParam("color") String color) {
+        return carElasticRepository.findByBrandAndColor(brand, color);
+    }
+
+    @GetMapping("/cars/date")
+    public List<Car> findCarsReleasedAfter(@RequestParam("release_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate releaseDate) {
+        return carElasticRepository.findByReleaseDateAfter(releaseDate);
     }
 
 }
