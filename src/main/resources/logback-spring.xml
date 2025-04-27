@@ -27,6 +27,9 @@
         <appender-ref ref="FILE" />
     </root>
 
-    <logger name="org.springframework.data.elasticsearch.client.WIRE" level="trace"/>
+    <logger name="org.elasticsearch.client" level="trace" additivity="false">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </logger>
 
 </configuration>

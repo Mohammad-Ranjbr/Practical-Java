@@ -6,6 +6,9 @@ import com.example.practical.service.CarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -76,18 +79,23 @@ public class CarApi {
     }
 
     @GetMapping(value = "/find-json", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Car> findCarsByBrandAndColor(@RequestBody Car car) {
-        return carElasticRepository.findByBrandAndColor(car.getBrand(), car.getColor());
+    public List<Car> findCarsByBrandAndColor(@RequestBody Car car, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "price"));
+        return carElasticRepository.findByBrandAndColor(car.getBrand(), car.getColor(), pageable).getContent();
     }
 
     @GetMapping("/cars/{brand}/{color}")
-    public List<Car> getCarsByPath(@PathVariable("brand") String brand,@PathVariable("color") String color) {
-        return carElasticRepository.findByBrandAndColor(brand, color);
+    public List<Car> getCarsByPath(@PathVariable("brand") String brand,@PathVariable("color") String color
+            , @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return carElasticRepository.findByBrandAndColor(brand, color, pageable).getContent();
     }
 
     @GetMapping("/cars")
-    public List<Car> findCarsByParam(@RequestParam("brand") String brand,@RequestParam("color") String color) {
-        return carElasticRepository.findByBrandAndColor(brand, color);
+    public List<Car> findCarsByParam(@RequestParam("brand") String brand,@RequestParam("color") String color
+            , @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return carElasticRepository.findByBrandAndColor(brand, color, pageable).getContent();
     }
 
     @GetMapping("/cars/date") // Specifies what the input date should look like.
