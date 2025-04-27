@@ -11,6 +11,6 @@ import java.util.List;
 public interface CarElasticRepository extends ElasticsearchRepository<Car, String> {
 
     List<Car> findByBrandAndColor(String brand, String color);
-    List<Car> findByReleaseDateAfter(LocalDate releaseDateAfter);
+    List<Car> findByReleaseDate(LocalDate releaseDateAfter);
 
 }

@@ -90,9 +90,9 @@ public class CarApi {
         return carElasticRepository.findByBrandAndColor(brand, color);
     }
 
-    @GetMapping("/cars/date")
+    @GetMapping("/cars/date") // Specifies what the input date should look like.
     public List<Car> findCarsReleasedAfter(@RequestParam("release_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate releaseDate) {
-        return carElasticRepository.findByReleaseDateAfter(releaseDate);
+        return carElasticRepository.findByReleaseDate(releaseDate);
     }
 
 }
