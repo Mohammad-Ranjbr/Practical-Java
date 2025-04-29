@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.server.ServerRequest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -109,6 +108,9 @@ public class CarApi {
     @GetMapping("/cars")
     public List<Car> findCarsByParam(@RequestParam("brand") String brand,@RequestParam("color") String color
             , @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        if(StringUtils.isNumeric(color)) {
+            throw new IllegalArgumentException("Invalid color : " + color);
+        }
         Pageable pageable = PageRequest.of(page, size);
         return carElasticRepository.findByBrandAndColor(brand, color, pageable).getContent();
     }
@@ -116,6 +118,14 @@ public class CarApi {
     @GetMapping("/cars/date") // Specifies what the input date should look like.
     public List<Car> findCarsReleasedAfter(@RequestParam("release_date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate releaseDate) {
         return carElasticRepository.findByReleaseDate(releaseDate);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    private ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+        String message = "Exception, " + ex.getMessage();
+        logger.warn(message);
+        ErrorResponse errorResponse = new ErrorResponse(message, LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 }
