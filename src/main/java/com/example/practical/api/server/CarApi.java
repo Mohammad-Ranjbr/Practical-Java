@@ -124,18 +124,13 @@ public class CarApi {
         return carElasticRepository.findByReleaseDate(releaseDate);
     }
 
+    // @ExceptionHandler methods only handle exceptions that are thrown within the same controller.
+    // If the Exception is thrown from another controller (another class), the handler defined in the first controller will have no effect.
+
     @ExceptionHandler(IllegalArgumentException.class)
-    private ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+    private ResponseEntity<ErrorResponse> handleInvalidColorException(IllegalArgumentException ex) {
         String message = "Exception, " + ex.getMessage();
         logger.warn(message);
-        ErrorResponse errorResponse = new ErrorResponse(message, LocalDateTime.now());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(IllegalApiParamException.class)
-    private ResponseEntity<ErrorResponse> handleIllegalApiParamException(IllegalApiParamException ex) {
-        String message = "Exception API Param, " + ex.getMessage();
-        logger.error(message);
         ErrorResponse errorResponse = new ErrorResponse(message, LocalDateTime.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
