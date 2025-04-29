@@ -2,6 +2,7 @@ package com.example.practical.api.server;
 
 import com.example.practical.api.response.ErrorResponse;
 import com.example.practical.entity.Car;
+import com.example.practical.exception.IllegalApiParamException;
 import com.example.practical.repository.CarElasticRepository;
 import com.example.practical.service.CarService;
 import org.apache.commons.lang3.StringUtils;
@@ -111,6 +112,9 @@ public class CarApi {
         if(StringUtils.isNumeric(color)) {
             throw new IllegalArgumentException("Invalid color : " + color);
         }
+        if(StringUtils.isNumeric(brand)) {
+            throw new IllegalApiParamException("Invalid brand : " + brand);
+        }
         Pageable pageable = PageRequest.of(page, size);
         return carElasticRepository.findByBrandAndColor(brand, color, pageable).getContent();
     }
@@ -124,6 +128,14 @@ public class CarApi {
     private ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         String message = "Exception, " + ex.getMessage();
         logger.warn(message);
+        ErrorResponse errorResponse = new ErrorResponse(message, LocalDateTime.now());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalApiParamException.class)
+    private ResponseEntity<ErrorResponse> handleIllegalApiParamException(IllegalApiParamException ex) {
+        String message = "Exception API Param, " + ex.getMessage();
+        logger.error(message);
         ErrorResponse errorResponse = new ErrorResponse(message, LocalDateTime.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
