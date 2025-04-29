@@ -22,7 +22,7 @@
 <!--    If no specific logging is defined for a package, by default only warn, error, and higher logs are recorded.-->
 <!--    These logs go to both the console and a file.-->
 
-    <root level="warn">
+    <root level="trace">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>

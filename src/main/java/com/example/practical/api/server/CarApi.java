@@ -1,8 +1,10 @@
 package com.example.practical.api.server;
 
+import com.example.practical.api.response.ErrorResponse;
 import com.example.practical.entity.Car;
 import com.example.practical.repository.CarElasticRepository;
 import com.example.practical.service.CarService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.server.ServerRequest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -85,10 +92,18 @@ public class CarApi {
     }
 
     @GetMapping("/cars/{brand}/{color}")
-    public List<Car> getCarsByPath(@PathVariable("brand") String brand,@PathVariable("color") String color
+    public ResponseEntity<Object> getCarsByPath(@PathVariable("brand") String brand, @PathVariable("color") String color
             , @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.SERVER, "Spring");
+        httpHeaders.add("X-Custom-Header", "Custom Response Header");
+        if(StringUtils.isNumeric(color)) {
+            ErrorResponse errorResponse = new ErrorResponse("Invalid color : " + color, LocalDateTime.now());
+            return new ResponseEntity<>(errorResponse, httpHeaders, HttpStatus.BAD_REQUEST);
+        }
         Pageable pageable = PageRequest.of(page, size);
-        return carElasticRepository.findByBrandAndColor(brand, color, pageable).getContent();
+        List<Car> cars =  carElasticRepository.findByBrandAndColor(brand, color, pageable).getContent();
+        return ResponseEntity.ok().headers(httpHeaders).body(cars);
     }
 
     @GetMapping("/cars")
