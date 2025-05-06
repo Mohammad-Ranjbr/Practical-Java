@@ -237,3 +237,15 @@ match: full-text search (not exactly the same, but parsed)
 size: 3 Return a maximum of 3 results
 from: 0 Start from result number 0 (for pagination)
 
+Want to know:
+Which APIs are used a lot?
+Which ones are slow?
+And what is the overall health of the API?
+
+🔧 Tools we use:
+Spring Boot Actuator: Collect health information and metrics
+Micrometer: Send data to Elasticsearch
+Elasticsearch: Store data
+Kibana: Display and analyze data graphically
+Postman: Generate load on the API to collect enough data
+

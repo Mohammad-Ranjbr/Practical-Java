@@ -16,3 +16,18 @@ logging:
     file:  "[Practical Java] %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
   file:
     name: log/practical-java.log
+
+# The configuration is for Micrometer and its purpose is to send Spring Boot Actuator metrics data to an Elasticsearch server every 30 seconds. However, there is a critical flaw in your configuration.
+# It tells Spring Boot to use Micrometer to send metrics to Elasticsearch.
+
+management:
+  metrics:
+    export:
+      elastic:
+        enabled: true
+        host: http://192.168.8.226:9200
+  health:
+    elasticsearch:
+      enabled: false
+
+
